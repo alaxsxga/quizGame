@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		645ABBEA2F05065F004AAFDE /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBE92F05065F004AAFDE /* Auth */; };
+		645ABBEC2F05065F004AAFDE /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBEB2F05065F004AAFDE /* Functions */; };
+		645ABBEE2F05065F004AAFDE /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBED2F05065F004AAFDE /* PostgREST */; };
+		645ABBF02F05065F004AAFDE /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBEF2F05065F004AAFDE /* Realtime */; };
+		645ABBF22F05065F004AAFDE /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBF12F05065F004AAFDE /* Storage */; };
+		645ABBF42F05065F004AAFDE /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 645ABBF32F05065F004AAFDE /* Supabase */; };
+		6477A2D92F14A16000D4FB3D /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6477A2D82F14A16000D4FB3D /* Config.xcconfig */; };
+		6477A2E12F14B64E00D4FB3D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6477A2E02F14B64E00D4FB3D /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		645ABBCC2F03C601004AAFDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,11 +38,27 @@
 		645ABBB82F03C5FF004AAFDE /* QuizGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645ABBCB2F03C601004AAFDE /* QuizGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuizGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		645ABBD52F03C601004AAFDE /* QuizGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuizGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6477A2D72F10B3AF00D4FB3D /* QuizGame.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuizGame.xctestplan; sourceTree = "<group>"; };
+		6477A2D82F14A16000D4FB3D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		6477A2E02F14B64E00D4FB3D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6477A2DD2F14A75F00D4FB3D /* Exceptions for "QuizGame" folder in "QuizGame" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 645ABBB72F03C5FF004AAFDE /* QuizGame */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		645ABBBA2F03C5FF004AAFDE /* QuizGame */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6477A2DD2F14A75F00D4FB3D /* Exceptions for "QuizGame" folder in "QuizGame" target */,
+			);
 			path = QuizGame;
 			sourceTree = "<group>";
 		};
@@ -52,6 +79,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				645ABBEE2F05065F004AAFDE /* PostgREST in Frameworks */,
+				645ABBEC2F05065F004AAFDE /* Functions in Frameworks */,
+				645ABBF42F05065F004AAFDE /* Supabase in Frameworks */,
+				645ABBEA2F05065F004AAFDE /* Auth in Frameworks */,
+				645ABBF22F05065F004AAFDE /* Storage in Frameworks */,
+				645ABBF02F05065F004AAFDE /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +108,9 @@
 		645ABBAF2F03C5FF004AAFDE = {
 			isa = PBXGroup;
 			children = (
+				6477A2E02F14B64E00D4FB3D /* README.md */,
+				6477A2D82F14A16000D4FB3D /* Config.xcconfig */,
+				6477A2D72F10B3AF00D4FB3D /* QuizGame.xctestplan */,
 				645ABBBA2F03C5FF004AAFDE /* QuizGame */,
 				645ABBCE2F03C601004AAFDE /* QuizGameTests */,
 				645ABBD82F03C601004AAFDE /* QuizGameUITests */,
@@ -112,6 +148,12 @@
 			);
 			name = QuizGame;
 			packageProductDependencies = (
+				645ABBE92F05065F004AAFDE /* Auth */,
+				645ABBEB2F05065F004AAFDE /* Functions */,
+				645ABBED2F05065F004AAFDE /* PostgREST */,
+				645ABBEF2F05065F004AAFDE /* Realtime */,
+				645ABBF12F05065F004AAFDE /* Storage */,
+				645ABBF32F05065F004AAFDE /* Supabase */,
 			);
 			productName = QuizGame;
 			productReference = 645ABBB82F03C5FF004AAFDE /* QuizGame.app */;
@@ -195,6 +237,9 @@
 			);
 			mainGroup = 645ABBAF2F03C5FF004AAFDE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645ABBB92F03C5FF004AAFDE /* Products */;
 			projectDirPath = "";
@@ -212,6 +257,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6477A2D92F14A16000D4FB3D /* Config.xcconfig in Resources */,
+				6477A2E12F14B64E00D4FB3D /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +318,7 @@
 /* Begin XCBuildConfiguration section */
 		645ABBDD2F03C601004AAFDE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6477A2D82F14A16000D4FB3D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -332,6 +380,7 @@
 		};
 		645ABBDE2F03C601004AAFDE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6477A2D82F14A16000D4FB3D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -392,8 +441,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"QuizGame/Preview Content\"";
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuizGame/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -429,8 +480,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"QuizGame/Preview Content\"";
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuizGame/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -463,6 +516,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
@@ -485,6 +539,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
@@ -506,6 +561,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
@@ -527,6 +583,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6D329H3J7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
@@ -583,6 +640,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		645ABBE92F05065F004AAFDE /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		645ABBEB2F05065F004AAFDE /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		645ABBED2F05065F004AAFDE /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		645ABBEF2F05065F004AAFDE /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		645ABBF12F05065F004AAFDE /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		645ABBF32F05065F004AAFDE /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645ABBE82F05065F004AAFDE /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 645ABBB02F03C5FF004AAFDE /* Project object */;
 }

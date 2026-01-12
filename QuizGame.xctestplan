@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "3C2EC787-149B-4B41-8561-35E60E544134",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:QuizGame.xcodeproj",
+      "identifier" : "645ABBB72F03C5FF004AAFDE",
+      "name" : "QuizGame"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:QuizGame.xcodeproj",
+        "identifier" : "645ABBCA2F03C601004AAFDE",
+        "name" : "QuizGameTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:QuizGame.xcodeproj",
+        "identifier" : "645ABBD42F03C601004AAFDE",
+        "name" : "QuizGameUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

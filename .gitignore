@@ -1,0 +1,35 @@
+# --- Xcode 相關 (個人與暫存檔) ---
+xcuserdata/
+DerivedData/
+*.moved-aside
+*.xcuserstate
+*.xccheckout
+*.xcbkptlist
+*.hmap
+*.ipa
+*.db
+
+# --- Swift Package Manager (套件管理) ---
+# 通常保留 Package.resolved 以固定版本，但忽略編譯過程產生的快取
+.build/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# --- CocoaPods ---
+# Pods/
+
+# --- 安全性 ---
+# 保護 API Keys
+*.xcconfig
+
+# --- macOS 系統檔案 ---
+# Mac 自動產生的縮圖或系統檔，完全與專案無關
+.DS_Store
+*.swp
+*~
+.AppleDouble
+.LSOverride
+
+# --- 模擬器與測試 ---
+*.mode1v3
+*.mode2v3
+*.perspectivev3
