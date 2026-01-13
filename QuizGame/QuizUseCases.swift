@@ -12,8 +12,7 @@ struct QuizUseCases {
     let getAuthors: GetAuthorsUseCase
     let getQuestions: GetQuizQuestionsUseCase
 
-    // 從同一個 Repository 建立所有 UseCase（預設組裝）
-    static func makeDefault(with repository: QuizRepository) -> QuizUseCases {
+    static func build(with repository: QuizRepository) -> QuizUseCases {
         QuizUseCases(
             getAuthors: GetAuthorsUseCase(repository: repository),
             getQuestions: GetQuizQuestionsUseCase(repository: repository)

@@ -27,27 +27,10 @@ class QuizViewModel: ObservableObject {
     private let getAuthorsUseCase: GetAuthorsUseCase
     private let getQuizQuestionsUseCase: GetQuizQuestionsUseCase
 
-    // 便利初始化：一行由 repository 建立所有用例
-    convenience init(repository: QuizRepository) {
-        let useCases = QuizUseCases.makeDefault(with: repository)
-        self.init(useCases: useCases)
-    }
-
-    // 便利初始化：直接注入聚合器（測試友善）
-    convenience init(useCases: QuizUseCases) {
-        self.init(
-            getAuthorsUseCase: useCases.getAuthors,
-            getQuizQuestionsUseCase: useCases.getQuestions
-        )
-    }
-
-    // 初始化時注入實作
-    init(
-        getAuthorsUseCase: GetAuthorsUseCase = GetAuthorsUseCase(repository: SupabaseQuizRepository()),
-        getQuizQuestionsUseCase: GetQuizQuestionsUseCase = GetQuizQuestionsUseCase(repository: SupabaseQuizRepository())
-    ) {
-        self.getAuthorsUseCase = getAuthorsUseCase
-        self.getQuizQuestionsUseCase = getQuizQuestionsUseCase
+    init(repository: SupabaseQuizRepository = SupabaseQuizRepository()) {
+        let useCases = QuizUseCases.build(with: repository)
+        self.getAuthorsUseCase = useCases.getAuthors
+        self.getQuizQuestionsUseCase = useCases.getQuestions
     }
 
     // 取得當前題目
