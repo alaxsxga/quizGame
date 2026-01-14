@@ -1,0 +1,15 @@
+# Supabase
+.branches
+.temp
+supabase/.temp/
+supabase/functions/.env
+
+# dotenvx
+.env.keys
+.env.local
+.env.*.local
+
+# Node / Deno
+node_modules/
+.npmrc
+.deno_plugins/
