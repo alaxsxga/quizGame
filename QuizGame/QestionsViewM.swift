@@ -26,6 +26,22 @@ struct QestionsViewM: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
+                        Spacer()
+                        // 新增 AI 題目生成按鈕
+                        Button {
+                            Task {
+                                await viewModel.generateQuizFromAI(for: author)
+                            }
+                        } label: {
+                            Label("AI 生成", systemImage: "sparkles")
+                                .font(.caption)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 5)
+                                .background(Capsule().fill(Color.purple.opacity(0.1)))
+                                .foregroundColor(.purple)
+                        }
+                        .buttonStyle(.plain) // 使用 .plain 樣式以避免預設按鈕的視覺效果
+                        .disabled(viewModel.isLoading) // 在載入中時禁用按鈕
                     }
                     .padding(.vertical, 8)
                 }
@@ -35,8 +51,26 @@ struct QestionsViewM: View {
                 await viewModel.loadAuthorsIfNeeded()
             }
             .overlay {
+                // 處理載入和錯誤狀態的顯示
                 if viewModel.isLoading && viewModel.authors.isEmpty {
-                    ProgressView("載入中...")
+                    ProgressView("載入作者中...")
+                } else if viewModel.isLoading { // 當 isLoading 但 authors 不為空時，可能是 AI 正在生成題目
+                    ProgressView("AI 正在生成題目中...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.ultraThinMaterial) // 輕微模糊背景
+                        .cornerRadius(10)
+                } else if let errorMessage = viewModel.errorMessage {
+                    ContentUnavailableView {
+                        Label("發生錯誤", systemImage: "exclamationmark.triangle")
+                    } description: {
+                        Text(errorMessage)
+                    } actions: {
+                        Button("重試") {
+                            Task {
+                                // todo
+                            }
+                        }
+                    }
                 }
             }
             .navigationDestination(for: Author.self) { author in
@@ -70,7 +104,20 @@ struct QuizPlayView: View {
         .navigationTitle(author.name)
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            await viewModel.startQuiz(for: author)
+            // 如果 `questionsByAuthor` 已經被 AI 生成或從普通資料庫載入，
+            // 這裡不需要再次呼叫 `startQuiz`。
+            // `QuizViewModel` 的 `startQuiz` 方法應該只被呼叫一次來設置初始狀態。
+            // 我們可以修改這裡，使其只在必要時啟動測驗（例如當題目尚未載入時）。
+            // 由於 `QestionsViewM` 中的 AI 按鈕和 NavigationLink 都會觸發 `startQuiz`
+            // 或 `generateQuizFromAI` 並最終設置 `questionsByAuthor`，
+            // 這個 `.task` 塊將在 `QuizPlayView` 出現時執行。
+            // `startQuiz` 內部會檢查 `questions: [Question]?` 是否為空。
+            // 如果你希望每次進入 `QuizPlayView` 都重新獲取資料，則保留此處的 `await viewModel.startQuiz(for: author)`。
+            // 但如果 AI 生成已經填充了 `questionsByAuthor`，再次呼叫可能會覆蓋。
+            // 一個更安全的做法是檢查 `viewModel.questionsByAuthor` 是否為空。
+            if viewModel.questionsByAuthor.isEmpty {
+                await viewModel.startQuiz(for: author)
+            }
         }
         .onDisappear {
             viewModel.stopTimer()

@@ -23,9 +23,9 @@ struct Author: Codable, Identifiable, Hashable {
 
 struct Question: Codable, Identifiable, Hashable {
     let id: UUID
-    let authorId: UUID
+    let authorId: UUID?
     let content: String
-    let createdAt: String
+    let createdAt: String?
     let options: [Option]
 
     enum CodingKeys: String, CodingKey {
@@ -50,7 +50,7 @@ struct Option: Codable, Identifiable, Hashable {
     let questionId: UUID
     let content: String
     let isCorrect: Bool
-    let createdAt: String
+    let createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -69,3 +69,21 @@ struct Option: Codable, Identifiable, Hashable {
     }
 }
 
+// AI 回傳專用結構
+struct AIQuestion: Codable {
+    let id: UUID
+    let content: String
+    let options: [AIOption]
+}
+
+struct AIOption: Codable, Identifiable {
+    let id: UUID
+    let content: String
+    let isCorrect: Bool  // 直接用 Bool，JSON 的 0/1 會自動轉換
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case content
+        case isCorrect = "is_correct"
+    }
+}

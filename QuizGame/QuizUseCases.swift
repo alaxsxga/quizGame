@@ -11,11 +11,13 @@ import Foundation
 struct QuizUseCases {
     let getAuthors: GetAuthorsUseCase
     let getQuestions: GetQuizQuestionsUseCase
+    let generateQuizQuestions: GenerateQuizQuestionsUseCase
 
     static func build(with repository: QuizRepository) -> QuizUseCases {
         QuizUseCases(
             getAuthors: GetAuthorsUseCase(repository: repository),
-            getQuestions: GetQuizQuestionsUseCase(repository: repository)
+            getQuestions: GetQuizQuestionsUseCase(repository: repository),
+            generateQuizQuestions: GenerateQuizQuestionsUseCase(repository: repository)
         )
     }
 }
@@ -23,11 +25,7 @@ struct QuizUseCases {
 // 獲取作者清單的 UseCase
 struct GetAuthorsUseCase {
     private let repository: QuizRepository
-    
-    init(repository: QuizRepository) {
-        self.repository = repository
-    }
-    
+    init(repository: QuizRepository) { self.repository = repository }
     func execute() async throws -> [Author] {
         return try await repository.fetchAuthors()
     }
@@ -36,11 +34,7 @@ struct GetAuthorsUseCase {
 // 獲取題目並處理的 UseCase
 struct GetQuizQuestionsUseCase {
     private let repository: QuizRepository
-    
-    init(repository: QuizRepository) {
-        self.repository = repository
-    }
-    
+    init(repository: QuizRepository) { self.repository = repository }
     func execute(for authorId: UUID) async throws -> [Question] {
         let questions = try await repository.fetchQuestions(by: authorId)
         // 這裡可以加入邏輯，例如：隨機排序題目
@@ -48,3 +42,11 @@ struct GetQuizQuestionsUseCase {
     }
 }
 
+// 透過 AI 生成測驗題目的 Use Case
+struct GenerateQuizQuestionsUseCase {
+    private let repository: QuizRepository
+    init(repository: QuizRepository) { self.repository = repository }
+    func execute(for topic: String, numberOfQuestions: Int = 5) async throws -> [Question] {
+        return try await repository.generateQuestionsFromAI(for: topic, numberOfQuestions: numberOfQuestions)
+    }
+}

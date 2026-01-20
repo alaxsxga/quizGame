@@ -26,11 +26,13 @@ class QuizViewModel: ObservableObject {
     
     private let getAuthorsUseCase: GetAuthorsUseCase
     private let getQuizQuestionsUseCase: GetQuizQuestionsUseCase
+    private let generateQuizQuestionsUseCase: GenerateQuizQuestionsUseCase
 
     init(repository: SupabaseQuizRepository = SupabaseQuizRepository()) {
         let useCases = QuizUseCases.build(with: repository)
         self.getAuthorsUseCase = useCases.getAuthors
         self.getQuizQuestionsUseCase = useCases.getQuestions
+        self.generateQuizQuestionsUseCase = useCases.generateQuizQuestions
     }
 
     // 取得當前題目
@@ -43,6 +45,7 @@ class QuizViewModel: ObservableObject {
     func loadAuthorsIfNeeded() async {
         guard authors.isEmpty else { return }
         isLoading = true
+        errorMessage = nil
         defer { isLoading = false }
 
         do {
@@ -51,9 +54,10 @@ class QuizViewModel: ObservableObject {
             self.errorMessage = error.localizedDescription
         }
     }
-
-    func startQuiz(for author: Author) async {
+    
+    func startQuiz(for author: Author, questions: [Question]? = nil) async {
         isLoading = true
+        errorMessage = nil
         questionsByAuthor = []
         currentQuestionIndex = 0
         selectedOption = nil
@@ -61,11 +65,36 @@ class QuizViewModel: ObservableObject {
         score = 0
         
         do {
-            self.questionsByAuthor = try await getQuizQuestionsUseCase.execute(for: author.id)
+            if let preloadedQuestions = questions {
+                // 如果有預載題目，直接使用
+                self.questionsByAuthor = preloadedQuestions
+            } else {
+                // 否則從資料庫獲取
+                self.questionsByAuthor = try await getQuizQuestionsUseCase.execute(for: author.id)
+            }
             isLoading = false
-            startTimer()
+            if !self.questionsByAuthor.isEmpty {
+                startTimer()
+            } else {
+                self.errorMessage = "未找到題目。請檢查或嘗試 AI 生成。"
+            }
         } catch {
             self.errorMessage = error.localizedDescription
+            isLoading = false
+        }
+    }
+    
+    // 呼叫 AI 生成題目並啟動測驗
+    func generateQuizFromAI(for author: Author) async {
+        isLoading = true
+        errorMessage = nil
+        questionsByAuthor = []
+        
+        do {
+            let generatedQuestions = try await generateQuizQuestionsUseCase.execute(for: "網路迷因")
+            await startQuiz(for: author, questions: generatedQuestions)
+        } catch {
+            self.errorMessage = "AI 生成題目失敗: \(error.localizedDescription)"
             isLoading = false
         }
     }
