@@ -1,5 +1,5 @@
 //
-//  QestionsView.swift
+//  QestionsViewM.swift
 //  QuizGame
 //
 //  Created by Ed Liao on 2025/12/30.
@@ -9,49 +9,58 @@ import SwiftUI
 
 struct QestionsViewM: View {
     @StateObject var viewModel = QuizViewModel()
+    @State private var selectedAuthorForNavigation: Author?
 
     var body: some View {
         NavigationStack {
-            List(viewModel.authors) { author in
-                NavigationLink(value: author) {
-                    HStack(spacing: 15) {
-                        Text(author.emoji)
-                            .font(.system(size: 40))
-                            .background(Circle().fill(Color.secondary.opacity(0.1)).frame(width: 50, height: 50))
-                        
-                        VStack(alignment: .leading) {
-                            Text(author.name)
-                                .font(.headline)
-                            Text("點擊開始挑戰")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        Spacer()
-                        // 新增 AI 題目生成按鈕
-                        Button {
-                            Task {
-                                await viewModel.generateQuizFromAI(for: author)
+            VStack {
+                List(viewModel.authors) { author in
+                    NavigationLink(value: author) {
+                        HStack(spacing: 15) {
+                            Text(author.emoji)
+                                .font(.system(size: 40))
+                                .background(Circle().fill(Color.secondary.opacity(0.1)).frame(width: 50, height: 50))
+                            
+                            VStack(alignment: .leading) {
+                                Text(author.name)
+                                    .font(.headline)
+                                Text("點擊開始挑戰")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
                             }
-                        } label: {
-                            Label("AI 生成", systemImage: "sparkles")
-                                .font(.caption)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 5)
-                                .background(Capsule().fill(Color.purple.opacity(0.1)))
-                                .foregroundColor(.purple)
+                            Spacer()
                         }
-                        .buttonStyle(.plain) // 使用 .plain 樣式以避免預設按鈕的視覺效果
-                        .disabled(viewModel.isLoading) // 在載入中時禁用按鈕
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
                 }
+                .navigationTitle("選擇作者")
+                
+                Button {
+                    Task {
+                        viewModel.errorMessage = nil
+                        // 呼叫 ViewModel 生成 AI 題目
+                        await viewModel.generateQuizFromAI(for: .aiGenerated)
+                        
+                        if viewModel.errorMessage == nil && !viewModel.questionsByAuthor.isEmpty {
+                            selectedAuthorForNavigation = .aiGenerated
+                        }
+                    }
+                } label: {
+                    Label("AI 生成題目", systemImage: "sparkles") // 可以修改按鈕文字以更明確
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .tint(.purple)
+                .disabled(viewModel.isLoading)
+                .padding(.horizontal)
+                .padding(.bottom, 5)
+                Spacer().frame(height: 1)
             }
-            .navigationTitle("選擇作者")
             .task {
                 await viewModel.loadAuthorsIfNeeded()
             }
             .overlay {
-                // 處理載入和錯誤狀態的顯示
                 if viewModel.isLoading && viewModel.authors.isEmpty {
                     ProgressView("載入作者中...")
                 } else if viewModel.isLoading { // 當 isLoading 但 authors 不為空時，可能是 AI 正在生成題目
@@ -66,14 +75,15 @@ struct QestionsViewM: View {
                         Text(errorMessage)
                     } actions: {
                         Button("重試") {
-                            Task {
-                                // todo
-                            }
+                            // todo: 這裡可以根據錯誤類型實現重試邏輯，例如重新載入作者或重試 AI 生成
                         }
                     }
                 }
             }
             .navigationDestination(for: Author.self) { author in
+                QuizPlayView(author: author)
+            }
+            .navigationDestination(item: $selectedAuthorForNavigation) { author in
                 QuizPlayView(author: author)
             }
         }
@@ -101,20 +111,11 @@ struct QuizPlayView: View {
                 ContentUnavailableView("沒找到題目", systemImage: "exclamationmark.triangle")
             }
         }
-        .navigationTitle(author.name)
+        .navigationTitle(author.name) // 這裡會顯示 AI 生成作者的名稱，例如 "AI 生成題目"
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            // 如果 `questionsByAuthor` 已經被 AI 生成或從普通資料庫載入，
-            // 這裡不需要再次呼叫 `startQuiz`。
-            // `QuizViewModel` 的 `startQuiz` 方法應該只被呼叫一次來設置初始狀態。
-            // 我們可以修改這裡，使其只在必要時啟動測驗（例如當題目尚未載入時）。
-            // 由於 `QestionsViewM` 中的 AI 按鈕和 NavigationLink 都會觸發 `startQuiz`
-            // 或 `generateQuizFromAI` 並最終設置 `questionsByAuthor`，
-            // 這個 `.task` 塊將在 `QuizPlayView` 出現時執行。
-            // `startQuiz` 內部會檢查 `questions: [Question]?` 是否為空。
-            // 如果你希望每次進入 `QuizPlayView` 都重新獲取資料，則保留此處的 `await viewModel.startQuiz(for: author)`。
-            // 但如果 AI 生成已經填充了 `questionsByAuthor`，再次呼叫可能會覆蓋。
-            // 一個更安全的做法是檢查 `viewModel.questionsByAuthor` 是否為空。
+            // 如果 ViewModel 中已經有題目（例如由 AI 生成），則不再重新載入
+            // 否則，為選定的作者載入題目
             if viewModel.questionsByAuthor.isEmpty {
                 await viewModel.startQuiz(for: author)
             }

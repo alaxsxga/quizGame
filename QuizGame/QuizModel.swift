@@ -21,6 +21,11 @@ struct Author: Codable, Identifiable, Hashable {
     }
 }
 
+// 在 Author 結構的擴展中添加 AI 專用作者
+extension Author {
+    static let aiGenerated = Author(id: UUID(), name: "AI 生成題目", emoji: "🤖", createdAt: "")
+}
+
 struct Question: Codable, Identifiable, Hashable {
     let id: UUID
     let authorId: UUID?
@@ -87,3 +92,4 @@ struct AIOption: Codable, Identifiable {
         case isCorrect = "is_correct"
     }
 }
+

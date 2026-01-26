@@ -91,7 +91,7 @@ class QuizViewModel: ObservableObject {
         questionsByAuthor = []
         
         do {
-            let generatedQuestions = try await generateQuizQuestionsUseCase.execute(for: "網路迷因")
+            let generatedQuestions = try await generateQuizQuestionsUseCase.execute(for: "台灣流行的網路迷因")
             await startQuiz(for: author, questions: generatedQuestions)
         } catch {
             self.errorMessage = "AI 生成題目失敗: \(error.localizedDescription)"
